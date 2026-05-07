@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '../ui/Button'
+import { useModal } from '../../context/ModalContext'
 
 export default function CtaFinal() {
+  const { open } = useModal()
   return (
     <section id="contacto" className="relative bg-[#1B2260] py-32 overflow-hidden">
       {/* Subtle grid */}
@@ -68,7 +70,7 @@ export default function CtaFinal() {
           transition={{ duration: 0.65, delay: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Button size="lg" className="group w-full sm:w-auto">
+          <Button size="lg" className="group w-full sm:w-auto" onClick={open}>
             Solicitar prototipo gratis
             <ArrowRight
               size={15}

@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { ModalProvider } from './context/ModalContext'
+import ContactModal from './components/ui/ContactModal'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Hero from './components/sections/Hero'
@@ -10,7 +12,7 @@ import Showcase from './components/sections/Showcase'
 import AboutUs from './components/sections/AboutUs'
 import CtaFinal from './components/sections/CtaFinal'
 
-export default function App() {
+function AppContent() {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -43,6 +45,15 @@ export default function App() {
         <CtaFinal />
       </main>
       <Footer />
+      <ContactModal />
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <ModalProvider>
+      <AppContent />
+    </ModalProvider>
   )
 }

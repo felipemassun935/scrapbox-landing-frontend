@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '../ui/Button'
 import DashboardMockup from '../ui/DashboardMockup'
+import { useModal } from '../../context/ModalContext'
 
 const ease = [0.21, 0.47, 0.32, 0.98]
 
 export default function Hero() {
+  const { open } = useModal()
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-[#0F1426]">
       {/* Subtle grid */}
@@ -80,11 +82,11 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.26, ease }}
               className="flex flex-wrap gap-3"
             >
-              <Button size="lg" className="group">
+              <Button size="lg" className="group" onClick={open}>
                 Presupuesto gratis
                 <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" />
               </Button>
-              <Button variant="secondary" size="lg">
+              <Button variant="secondary" size="lg" as="a" href="#servicios">
                 Ver servicios
               </Button>
             </motion.div>
@@ -96,7 +98,7 @@ export default function Hero() {
               className="flex items-center gap-6 mt-10 pt-10 border-t border-white/[0.07]"
             >
               {[
-                { number: '+50', label: 'proyectos' },
+                { number: '+10', label: 'proyectos' },
                 { number: '100%', label: 'personalizados' },
                 { number: '72hs', label: 'primer entregable' },
               ].map((stat) => (

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ArrowRight } from 'lucide-react'
 import clsx from 'clsx'
 import { Button } from '../ui/Button'
+import { useModal } from '../../context/ModalContext'
 
 const links = [
   { label: 'Servicios', href: '#servicios' },
@@ -12,6 +13,7 @@ const links = [
 ]
 
 export default function Navbar() {
+  const { open } = useModal()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -51,7 +53,7 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden md:block">
-            <Button size="sm" className="gap-1.5">
+            <Button size="sm" className="gap-1.5" onClick={open}>
               Solicitar prototipo gratis
               <ArrowRight size={14} />
             </Button>
@@ -88,7 +90,7 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <Button className="mt-4 w-full" onClick={handleLinkClick}>
+              <Button className="mt-4 w-full" onClick={() => { handleLinkClick(); open() }}>
                 Solicitar prototipo gratis
               </Button>
             </div>

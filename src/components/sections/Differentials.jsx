@@ -42,16 +42,18 @@ const features = [
   },
 ]
 
-/* Minimal terminal decoration */
 const terminalLines = [
-  { type: 'comment', text: '# Deploy en produccion' },
-  { type: 'cmd', text: '$ npm run build' },
-  { type: 'out', text: '  ✓ 48 modules transformed' },
-  { type: 'out', text: '  dist/index.html   0.42 kB' },
-  { type: 'out', text: '  dist/assets/...   94.3 kB' },
-  { type: 'success', text: '  Build complete in 1.2s' },
-  { type: 'cmd', text: '$ vercel --prod' },
-  { type: 'success', text: '  Production: https://app.tuempresa.io' },
+  { type: 'comment', text: '  Scrapbox · Proyecto: Sistema de gestion' },
+  { type: 'spacer' },
+  { type: 'success', text: '  ✓  Reunion inicial — dia 1' },
+  { type: 'success', text: '  ✓  Prototipo entregado — dia 3' },
+  { type: 'success', text: '  ✓  Ajustes con tu equipo — dia 7' },
+  { type: 'success', text: '  ✓  Sistema completo — dia 21' },
+  { type: 'success', text: '  ✓  Lanzamiento en produccion' },
+  { type: 'spacer' },
+  { type: 'out', text: '  Sistema activo en tuempresa.com' },
+  { type: 'out', text: '  Usuarios conectados hoy: 38' },
+  { type: 'out', text: '  Disponibilidad este mes: 99.9%' },
 ]
 
 export default function Differentials() {
@@ -87,7 +89,7 @@ export default function Differentials() {
         </motion.div>
 
         {/* Two-column layout */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: feature grid */}
           <div>
             <motion.div
@@ -136,9 +138,9 @@ export default function Differentials() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.75, delay: 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="lg:sticky lg:top-24"
+            className="lg:sticky lg:top-24 flex items-center"
           >
-            <div className="rounded-2xl overflow-hidden border border-[#1A2035] bg-[#0F1426] shadow-2xl">
+            <div className="w-full rounded-2xl overflow-hidden border border-[#1A2035] bg-[#0F1426] shadow-2xl">
               {/* Terminal chrome */}
               <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.07] bg-[#080C18]">
                 <div className="w-2.5 h-2.5 rounded-full bg-white/[0.15]" />
@@ -149,11 +151,9 @@ export default function Differentials() {
               <div className="p-6 font-mono text-[13px] space-y-1.5">
                 {terminalLines.map((line, i) => (
                   <div key={i} className="leading-relaxed">
+                    {line.type === 'spacer' && <div className="h-2" />}
                     {line.type === 'comment' && (
-                      <span className="text-white/25">{line.text}</span>
-                    )}
-                    {line.type === 'cmd' && (
-                      <span className="text-[#9CA3AF]">{line.text}</span>
+                      <span className="text-white/35 font-medium">{line.text}</span>
                     )}
                     {line.type === 'out' && (
                       <span className="text-white/40">{line.text}</span>
@@ -170,31 +170,6 @@ export default function Differentials() {
               </div>
             </div>
 
-            {/* Small floating metric card */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.45, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="mt-4 flex gap-4"
-            >
-              {[
-                { label: 'Performance', value: '99', unit: '/100', color: 'emerald' },
-                { label: 'Accesibilidad', value: '98', unit: '/100', color: 'blue' },
-                { label: 'SEO', value: '100', unit: '/100', color: 'orange' },
-              ].map((m) => (
-                <div
-                  key={m.label}
-                  className="flex-1 bg-white border border-[#E5E7EB] rounded-xl p-4 text-center"
-                >
-                  <div className="text-2xl font-bold text-[#0F1426] leading-none">
-                    {m.value}
-                    <span className="text-xs font-normal text-[#9CA3AF]">{m.unit}</span>
-                  </div>
-                  <div className="text-[#9CA3AF] text-[11px] mt-1">{m.label}</div>
-                </div>
-              ))}
-            </motion.div>
           </motion.div>
         </div>
       </div>
