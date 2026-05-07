@@ -5,12 +5,13 @@ import { useModal } from '../../context/ModalContext'
 import { Button } from './Button'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Para activar el envío de emails:
-// 1. Ir a https://formspree.io y crear cuenta gratuita con scrapboxgo@gmail.com
-// 2. Crear un nuevo form
-// 3. Reemplazar "YOUR_FORM_ID" con el ID que te dan (ej: "xpwzbqvr")
+// Para activar el envío de emails (1 solo paso):
+// 1. Ir a https://web3forms.com
+// 2. Ingresar scrapboxgo@gmail.com y hacer click en "Get your Access Key"
+// 3. Revisar el mail y copiar la clave
+// 4. Reemplazar "YOUR_WEB3FORMS_ACCESS_KEY" con esa clave
 // ─────────────────────────────────────────────────────────────────────────────
-const FORMSPREE_URL = 'https://formspree.io/f/YOUR_FORM_ID'
+const WEB3FORMS_KEY = 'a54b0c04-2c51-45f9-ab3d-4e7a5a1efd1e'
 
 const inputClass = [
   'w-full bg-white/[0.05] border border-white/[0.1] rounded-xl px-4 py-3',
@@ -48,20 +49,23 @@ export default function ContactModal() {
     setStatus('loading')
     setErrorMsg('')
     try {
-      const res = await fetch(FORMSPREE_URL, {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Nueva consulta de ${form.nombre} — Scrapbox`,
+          from_name: 'Scrapbox Landing',
           Nombre: form.nombre,
           Email: form.email,
-          Descripcion: form.descripcion,
+          Consulta: form.descripcion,
         }),
       })
-      if (res.ok) {
+      const data = await res.json()
+      if (data.success) {
         setStatus('success')
       } else {
-        const data = await res.json().catch(() => ({}))
-        setErrorMsg(data?.error || 'Algo salio mal. Intenta de nuevo.')
+        setErrorMsg(data?.message || 'Algo salio mal. Intenta de nuevo.')
         setStatus('error')
       }
     } catch {
