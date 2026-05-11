@@ -56,7 +56,7 @@ export const MODULES = [
   { id: 'admin-panel', name: 'Panel administrador', price: 150000, icon: 'LayoutDashboard' },
   { id: 'user-login', name: 'Login de usuarios', price: 120000, icon: 'Lock' },
   { id: 'mercadopago', name: 'Pasarela de pagos Mercado Pago', price: 100000, icon: 'CreditCard' },
-  { id: 'afip', name: 'Integración AFIP / facturación', price: 180000, icon: 'Receipt' },
+  { id: 'afip', name: 'Integración AFIP / facturación', price: 285000, icon: 'Receipt' },
   { id: 'live-chat', name: 'Chat en vivo', price: 50000, icon: 'Headphones' },
   { id: 'seo', name: 'SEO inicial', price: 90000, icon: 'Search' },
   { id: 'hosting', name: 'Hosting + deploy inicial', price: 60000, icon: 'Server' },
