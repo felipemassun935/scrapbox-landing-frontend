@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles, RefreshCw } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { formatARS, CONSULTING_THRESHOLD } from '../../data/pricing'
 
 const ease = [0.21, 0.47, 0.32, 0.98]
 
-export default function Summary({ base, activeModules, activeExtras, subtotal, iva, total, onRequestQuote, canRequest }) {
+export default function Summary({ base, activeModules, activeExtras, subtotal, iva, total, monthly, onRequestQuote, canRequest }) {
   const hasBonus = total >= CONSULTING_THRESHOLD
   const itemCount = (base ? 1 : 0) + activeModules.length + activeExtras.length
 
@@ -127,6 +127,34 @@ export default function Summary({ base, activeModules, activeExtras, subtotal, i
               </motion.span>
             </div>
           </div>
+
+          {/* Monthly */}
+          <AnimatePresence>
+            {monthly > 0 && (
+              <motion.div
+                key="monthly"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ duration: 0.22, ease }}
+                className="mt-4 p-3 rounded-xl bg-[#2A3582]/10 border border-[#2A3582]/25 flex items-center justify-between gap-2"
+              >
+                <div className="flex items-center gap-2">
+                  <RefreshCw size={12} className="text-[#6B7FD4] flex-shrink-0" />
+                  <span className="text-xs text-white/40">Mantenimiento mensual</span>
+                </div>
+                <motion.span
+                  key={monthly}
+                  initial={{ opacity: 0.5, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.18 }}
+                  className="text-sm font-bold text-[#7B8FE0] tabular-nums"
+                >
+                  {formatARS(monthly)}<span className="text-[10px] font-normal text-white/30">/mes</span>
+                </motion.span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
 

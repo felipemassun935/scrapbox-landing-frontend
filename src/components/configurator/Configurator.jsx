@@ -5,12 +5,13 @@ import {
   Globe, Star, ShoppingCart, Calendar, Package, Users,
   MessageSquare, MessageCircle, FileText, LayoutDashboard,
   Lock, CreditCard, Receipt, Headphones, Search, Server,
-  Palette, Pen, Zap, BarChart3, Check,
+  Palette, Pen, Zap, BarChart3, Check, Info,
 } from 'lucide-react'
 import { FadeIn } from '../ui/FadeIn'
 import { BASE_PROJECTS, MODULES, EXTRAS, IVA_RATE, formatARS } from '../../data/pricing'
 import Summary from './Summary'
 import BudgetModal from './BudgetModal'
+import DetailModal from './DetailModal'
 
 const ICON_MAP = {
   Globe, Star, ShoppingCart, Calendar, Package, Users,
@@ -51,27 +52,20 @@ function StepSection({ step, title, subtitle, children, done }) {
   )
 }
 
-function ProjectCard({ project, selected, onSelect }) {
+function ProjectCard({ project, selected, onSelect, onDetail }) {
   const Icon = ICON_MAP[project.icon] ?? Globe
 
   return (
-    <motion.button
-      onClick={() => onSelect(project.id)}
+    <motion.div
       whileHover={{ y: -3, transition: { duration: 0.15, ease } }}
-      whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
       className={clsx(
         'relative w-full text-left p-5 rounded-2xl border transition-colors duration-200 cursor-pointer group',
         selected
           ? 'border-[#EB6700]/55 bg-[#EB6700]/[0.05] shadow-[0_0_32px_rgba(235,103,0,0.09)]'
           : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.04]',
       )}
+      onClick={() => onSelect(project.id)}
     >
-      {/* Badge */}
-      {project.badge && (
-        <div className="absolute top-3 left-3 inline-flex items-center px-2 py-0.5 rounded-full bg-[#EB6700]/15 border border-[#EB6700]/25 text-[10px] text-[#EB6700] font-semibold tracking-wide">
-          {project.badge}
-        </div>
-      )}
 
       {/* Selected check */}
       <AnimatePresence>
@@ -88,8 +82,8 @@ function ProjectCard({ project, selected, onSelect }) {
         )}
       </AnimatePresence>
 
-      {/* Content */}
-      <div className={clsx('flex flex-col', project.badge ? 'pt-7 mt-1' : 'pt-0')}>
+            {/* Content */}
+      <div className="flex flex-col h-full">
         <div
           className={clsx(
             'w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-colors duration-200',
@@ -99,31 +93,55 @@ function ProjectCard({ project, selected, onSelect }) {
           <Icon size={18} className={selected ? 'text-[#EB6700]' : 'text-white/40'} />
         </div>
 
-        <div className="font-semibold text-white text-sm leading-snug mb-1.5">{project.name}</div>
-        <div className="text-white/35 text-xs leading-relaxed mb-4 line-clamp-2">{project.description}</div>
+        <div className="font-semibold text-white text-sm leading-snug mb-1.5">
+          {project.name}
+        </div>
 
-        <div className={clsx('text-base font-bold mt-auto', selected ? 'text-[#EB6700]' : 'text-white/55')}>
-          {formatARS(project.price)}
+        <div className="text-white/35 text-xs leading-relaxed mb-1 line-clamp-2">
+          {project.description}
+        </div>
+
+
+        {project.badge && (
+          <div className="mt-1 mb-2 inline-flex w-fit px-2 py-1 rounded-md bg-[#EB6700]/15 text-[#EB6700] text-[10px] font-medium border border-[#EB6700]/20">
+            {project.badge}
+          </div>
+        )}
+
+        <div className="flex items-center justify-between mt-auto mb-3">
+          <div className={clsx('text-base font-bold', selected ? 'text-[#EB6700]' : 'text-white/55')}>
+            {formatARS(project.price)}
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onDetail(project)
+            }}
+            className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] text-white/35 hover:text-white/70 hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all duration-150"
+          >
+            <Info size={11} />
+            Detalle
+          </button>
         </div>
       </div>
-    </motion.button>
+    </motion.div>
   )
 }
 
-function FeatureCard({ item, selected, onToggle }) {
+function FeatureCard({ item, selected, onToggle, onDetail }) {
   const Icon = ICON_MAP[item.icon] ?? Check
 
   return (
-    <motion.button
-      onClick={() => onToggle(item.id)}
+    <motion.div
       whileHover={{ y: -1, transition: { duration: 0.12, ease } }}
-      whileTap={{ scale: 0.985, transition: { duration: 0.08 } }}
       className={clsx(
         'relative w-full text-left p-4 rounded-xl border transition-colors duration-200 cursor-pointer group',
         selected
           ? 'border-[#EB6700]/50 bg-[#EB6700]/[0.05]'
           : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.13] hover:bg-white/[0.04]',
       )}
+      onClick={() => onToggle(item.id)}
     >
       <div className="flex items-center gap-3">
         {/* Icon */}
@@ -143,6 +161,15 @@ function FeatureCard({ item, selected, onToggle }) {
             +{formatARS(item.price)}
           </div>
         </div>
+
+        {/* Detail button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); onDetail(item) }}
+          className="flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] text-white/30 hover:text-white/65 hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all duration-150 flex-shrink-0"
+        >
+          <Info size={11} />
+          Detalle
+        </button>
 
         {/* Checkbox */}
         <div
@@ -165,7 +192,7 @@ function FeatureCard({ item, selected, onToggle }) {
           </AnimatePresence>
         </div>
       </div>
-    </motion.button>
+    </motion.div>
   )
 }
 
@@ -176,6 +203,7 @@ export default function Configurator() {
   const [selectedModules, setSelectedModules] = useState(new Set())
   const [selectedExtras, setSelectedExtras] = useState(new Set())
   const [budgetOpen, setBudgetOpen] = useState(false)
+  const [detailItem, setDetailItem] = useState(null)
 
   const toggleModule = (id) =>
     setSelectedModules((prev) => {
@@ -200,6 +228,10 @@ export default function Configurator() {
     activeExtras.reduce((s, e) => s + e.price, 0)
   const iva = subtotal * IVA_RATE
   const total = subtotal + iva
+  const monthly =
+    (base?.monthly ?? 0) +
+    activeModules.reduce((s, m) => s + (m.monthly ?? 0), 0) +
+    activeExtras.reduce((s, e) => s + (e.monthly ?? 0), 0)
 
   const summaryProps = {
     base,
@@ -208,6 +240,7 @@ export default function Configurator() {
     subtotal,
     iva,
     total,
+    monthly,
     canRequest: !!selectedProject,
     onRequestQuote: () => setBudgetOpen(true),
   }
@@ -259,6 +292,7 @@ export default function Configurator() {
                       project={project}
                       selected={selectedProject === project.id}
                       onSelect={setSelectedProject}
+                      onDetail={setDetailItem}
                     />
                   ))}
                 </div>
@@ -280,6 +314,7 @@ export default function Configurator() {
                       item={module}
                       selected={selectedModules.has(module.id)}
                       onToggle={toggleModule}
+                      onDetail={setDetailItem}
                     />
                   ))}
                 </div>
@@ -301,6 +336,7 @@ export default function Configurator() {
                       item={extra}
                       selected={selectedExtras.has(extra.id)}
                       onToggle={toggleExtra}
+                      onDetail={setDetailItem}
                     />
                   ))}
                 </div>
@@ -327,6 +363,12 @@ export default function Configurator() {
         selectedModules={selectedModules}
         selectedExtras={selectedExtras}
         total={total}
+      />
+
+      <DetailModal
+        item={detailItem}
+        isOpen={!!detailItem}
+        onClose={() => setDetailItem(null)}
       />
     </section>
   )
