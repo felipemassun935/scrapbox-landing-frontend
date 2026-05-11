@@ -5,8 +5,8 @@ import { staggerContainer, staggerItem } from '../ui/FadeIn'
 const stats = [
   { value: '72hs', label: 'Primer entregable' },
   { value: '100%', label: 'Codigo propio' },
-  { value: '+50', label: 'Proyectos listos' },
-  { value: '<30d', label: 'Version funcional' },
+  { value: '+10', label: 'Proyectos listos' },
+  { value: '<20d', label: 'Version funcional' },
 ]
 
 const features = [
