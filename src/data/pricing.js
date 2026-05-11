@@ -43,7 +43,7 @@ export const BASE_PROJECTS = [
     id: 'crm',
     name: 'CRM Simple',
     description: 'Gestión de clientes, ventas y seguimiento comercial.',
-    price: 1200000,
+    price: 1000000,
     badge: null,
     icon: 'Users',
   },
