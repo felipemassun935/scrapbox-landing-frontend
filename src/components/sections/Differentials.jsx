@@ -8,7 +8,7 @@ const stats = [
   { value: '+10', label: 'Proyectos listos' },
   { value: '<20d', label: 'Version funcional' },
 ]
-
+//s
 const features = [
   {
     icon: Timer,
