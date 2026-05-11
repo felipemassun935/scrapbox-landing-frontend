@@ -11,6 +11,7 @@ import Differentials from './components/sections/Differentials'
 import Showcase from './components/sections/Showcase'
 import AboutUs from './components/sections/AboutUs'
 import CtaFinal from './components/sections/CtaFinal'
+import Configurator from './components/configurator/Configurator'
 
 function AppContent() {
   useEffect(() => {
@@ -42,6 +43,7 @@ function AppContent() {
         <Differentials />
         <Showcase />
         <AboutUs />
+        <Configurator />
         <CtaFinal />
       </main>
       <Footer />
